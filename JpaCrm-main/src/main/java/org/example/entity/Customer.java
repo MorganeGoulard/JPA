@@ -1,6 +1,8 @@
 package org.example.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers") // => pour préciser notre table
@@ -25,6 +27,11 @@ public class Customer {
     @Column(name="zip_code")
     private String zipCode;
     private Integer state;
+
+    @OneToOne
+    @JoinColumn (name="payment_id")
+    private Payment payment;
+
 
     public Customer(){
 
@@ -120,6 +127,14 @@ public class Customer {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public void setNotNullData(Customer newCustomerData ){
