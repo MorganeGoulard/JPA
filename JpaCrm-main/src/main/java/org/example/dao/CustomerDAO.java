@@ -43,4 +43,63 @@ public class CustomerDAO {
         tx.commit();
     }
 
+    public static void deleteById(long id){
+        /* Ma version
+        EntityManager entityManager = EntityManagerSingleton.getEntityManager();
+
+        Customer customer = entityManager.find(Customer.class, id );
+
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        entityManager.remove(customer);
+        tx.commit();*/
+
+        // version J-C + simple
+        Customer customerToDelete = findById(id);
+        delete(customerToDelete);
+
+    }
+
+    /*public static void deleteByIdV2(long id){
+        EntityManager entityManager = EntityManagerSingleton.getEntityManager();
+
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+
+        Query deleteQuery = entityManager.createQuery("delete from Customer c where c.id= :id");
+        deleteQuery.setParameter("id", id);
+        deleteQuery.executeUpdate();
+
+        tx.commit();
+    }*/
+
+    public static void  updateCustomer(long id, Customer newCustomerData){
+
+        EntityManager entityManager = EntityManagerSingleton.getEntityManager();
+
+        Customer customerToUpdate = entityManager.find(Customer.class, id);
+        customerToUpdate.setNotNullData(newCustomerData);
+        EntityTransaction tx = null;
+
+        try {
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.merge(customerToUpdate);
+            tx.commit();
+        } catch(Exception e){
+            tx.rollback();
+        }
+
+    }
+
+
+    public static List<Customer> findByFirstName(String firstName) {
+
+        EntityManager entityManager = EntityManagerSingleton.getEntityManager();
+
+        Query queryToFindCustomerByFirstName = entityManager.createQuery("select c from Customer c where c.firstName = :firstName");
+        queryToFindCustomerByFirstName.setParameter("firstName", firstName);
+        return queryToFindCustomerByFirstName.getResultList();
+    }
+
 }
