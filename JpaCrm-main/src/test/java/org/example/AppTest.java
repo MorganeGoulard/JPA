@@ -4,6 +4,7 @@ import org.example.dao.CustomerDAO;
 import org.example.dao.PaymentDao;
 import org.example.entity.Customer;
 import org.example.entity.Payment;
+import org.example.util.Gender;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.List;
@@ -18,6 +19,18 @@ public class AppTest
         Customer customer = new Customer();
         customer.setFirstName("Alain");
         customer.setLastName("Delon");
+
+        CustomerDAO.create(customer);
+
+        assertTrue(true);
+    }
+
+    @Test
+    public void createCustomerWithGender(){
+        Customer customer = new Customer();
+        customer.setFirstName("Alain");
+        customer.setLastName("Delon");
+        customer.setGender(Gender.FEMALE);
 
         CustomerDAO.create(customer);
 
