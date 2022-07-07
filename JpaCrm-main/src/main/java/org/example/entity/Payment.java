@@ -10,6 +10,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name="card_number")
     private String cardNumber;
     @Column(name="confidential_code")
