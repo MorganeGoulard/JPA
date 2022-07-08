@@ -6,32 +6,33 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="orders")
-public class Orders {
+public class Order {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT")
     private long id;
-    @Column(name="client_id")
-    private long clientId;
-    @Column(name="type_presta")
+    /*@Column(columnDefinition = "INT")
+    private long clientId;*/
     private String typePresta;
     private String designation;
-    @Column(name="nb_days")
-    private int nbDays;
-    @Column(name="unit_price")
-    private int unitPrice;
+    private Integer nbDays;
+    private Float unitPrice;
+    @Column(columnDefinition = "BIT")
     private StateOrders state; // CANCELLED:0 / OPTION:1 / CONFIRMED:2
-    @Column(name="total_exclude_taxe")
-    private float TotalExcludeTaxe;
-    @Column(name="total_with_taxe")
-    private float totalWithTaxe;
+    //private float TotalExcludeTaxe;
+    //private float totalWithTaxe;
+
+    @ManyToOne
+    @JoinColumn (name = "clientId")//, insertable=false, updatable=false)
+    private Client client;
 
 
-    public Orders() {
+    public Order() {
     }
 
-    public Orders(String typePresta, String designation) {
+    public Order(String typePresta, String designation) {
         this.typePresta = typePresta;
         this.designation = designation;
     }
@@ -42,14 +43,6 @@ public class Orders {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
     }
 
     public String getTypePresta() {
@@ -68,19 +61,19 @@ public class Orders {
         this.designation = designation;
     }
 
-    public int getNbDays() {
+    public Integer getNbDays() {
         return nbDays;
     }
 
-    public void setNbDays(int nbDays) {
+    public void setNbDays(Integer nbDays) {
         this.nbDays = nbDays;
     }
 
-    public int getUnitPrice() {
+    public Float getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(Float unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -92,34 +85,47 @@ public class Orders {
         this.state = state;
     }
 
-    public float getTotalExcludeTaxe() {
-        return TotalExcludeTaxe;
+
+    public Client getClient() {
+        return client;
     }
 
-    public void setTotalExcludeTaxe(float totalExcludeTaxe) {
-        TotalExcludeTaxe = totalExcludeTaxe;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public float getTotalWithTaxe() {
-        return totalWithTaxe;
+    public void setNotNullData(Order newOrderData ){
+        if(newOrderData.getClient() != null) {
+            this.setClient(newOrderData.getClient());
+        }
+        if(newOrderData.getDesignation() != null) {
+            this.setDesignation(newOrderData.getDesignation());
+        }
+        if(newOrderData.getTypePresta() != null) {
+            this.setTypePresta(newOrderData.getTypePresta());
+        }
+        if(newOrderData.getNbDays() != null) {
+            this.setNbDays(newOrderData.getNbDays());
+        }
+        if(newOrderData.getUnitPrice() != null) {
+            this.setUnitPrice(newOrderData.getUnitPrice());
+        }
+        if(newOrderData.getState() != null) {
+            this.setState(newOrderData.getState());
+        }
     }
 
-    public void setTotalWithTaxe(float totalWithTaxe) {
-        this.totalWithTaxe = totalWithTaxe;
-    }
 
-    @Override
+        @Override
     public String toString() {
         return "OrdersDAO{" +
                 "id=" + id +
-                ", clientId=" + clientId +
+                //", clientId=" + clientId +
                 ", typePresta='" + typePresta + '\'' +
                 ", designation='" + designation + '\'' +
                 ", nbDays=" + nbDays +
                 ", unitPrice=" + unitPrice +
                 ", state=" + state +
-                ", TotalExcludeTaxe=" + TotalExcludeTaxe +
-                ", totalWithTaxe=" + totalWithTaxe +
                 '}';
     }
 

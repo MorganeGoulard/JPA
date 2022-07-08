@@ -1,2 +1,7 @@
-package org.example.util;public enum StateOrders {
+package org.example.util;
+
+public enum StateOrders {
+
+    CANCELLED, OPTION, CONFIRMED;
+
 }

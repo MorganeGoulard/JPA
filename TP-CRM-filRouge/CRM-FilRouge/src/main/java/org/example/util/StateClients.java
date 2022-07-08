@@ -1,2 +1,7 @@
-package org.example.util;public enum StateClients {
+package org.example.util;
+
+public enum StateClients {
+
+    INACTIVE, ACTIVE;
+
 }
